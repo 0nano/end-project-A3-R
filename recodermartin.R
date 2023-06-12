@@ -1,5 +1,5 @@
 # On lit le fichier csv et on crée les données | nrows --> Nb de lignes lues
-data <- read.csv("stat_acc_V3.csv", sep=";", nrows=100)
+data <- read.csv("stat_acc_V3.csv", sep=";", nrows=1000)
 
 # Recoder la variable "descr_cat_veh" en int
 data$descr_cat_veh <- as.integer(factor(data$descr_cat_veh))
