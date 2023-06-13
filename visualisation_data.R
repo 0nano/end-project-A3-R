@@ -52,3 +52,22 @@ months <- format(data$date, '%m') #Recuperation du mois des accidents
 freq_table <- table(months)
 barplot(freq_table, main = "Nombre d'accidents par mois", xlab = "Mois", ylab = "Nombre d'accidents", col = "#69b3a2", names.arg = month.name)
 
+
+
+#### PARTIE ANALYSE (BESOIN DE LA PREPARATION)
+# Creatino d'une variable avec le mois et l'annee seulement
+data$year_month <- format(data$date, "%Y-%m")
+
+# Create a table of unique year-month combinations and corresponding counts
+monthly_counts <- table(data$year_month)
+
+# Create the monthly_data dataframe with two columns: year_month and nombre_accidents
+monthly_data <- data.frame(year_month = names(monthly_counts), nombre_accidents = as.numeric(monthly_counts))
+
+#Regression lineaire
+regression <- lm(nombre_accidents ~ as.numeric(factor(year_month)), monthly_data)
+
+#Resultats de la regression
+summary(regression)
+
+
