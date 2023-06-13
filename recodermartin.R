@@ -45,7 +45,7 @@ data_accidents <- read.csv("stat_acc_V3.csv", sep = ";", header = TRUE)
 # merge les deux datas selon le code_insee
 data_merged <- merge(data_accidents, data_cities,  by = "id_code_insee")
 
-newdata <- data_merged[c("id_code_insee","Num_Acc","num_veh","id_usa","date","ville","latitude.x","longitude.x","descr_cat_veh","descr_agglo","descr_athmo","descr_lum","descr_etat_surf","description_intersection","an_nais","age","place","descr_dispo_secu","descr_grav","descr_motif_traj","descr_type_col","department_name", "region_name")]
+newdata <- data_merged[c("id_code_insee","Num_Acc","num_veh","id_usa","date","ville","latitude.x","longitude.x","descr_cat_veh","descr_agglo","descr_athmo","descr_lum","descr_etat_surf","description_intersection","an_nais","age","place","descr_dispo_secu","descr_grav","descr_motif_traj","descr_type_col","department_name", "department_number", "region_name")]
 
 # Sauvegarde du premier fichier CSV avec la colonne "region_name" ajoutée
 write.csv(newdata, "new_cities.csv", row.names = FALSE)
