@@ -32,3 +32,15 @@ data$age = 2009-data$an_nais
 #conversion du format chr en format date
 data$date <- as.POSIXct(data$date,'%Y-%m-%d %H:%M:%S')
 
+
+#Coordonnes geographique de PARIS  pour tous les arrondissements
+data$latitude[grepl("^PARIS\\s\\d+$", data$ville)] <- 48.8534
+data$longitude[grepl("^PARIS\\s\\d+$", data$ville)] <- 2.3488
+
+#Coordonnes geographique de MARSEILLE  pour tous les arrondissements
+data$latitude[grepl("^MARSEILLE\\s\\d+$", data$ville)] <- 43.3
+data$longitude[grepl("^MARSEILLE\\s\\d+$", data$ville)] <- 5.4
+
+#Coordonnes geographique de LYON  pour tous les arrondissements
+data$latitude[grepl("^LYON\\s\\d+$", data$ville)] <- 45.75 
+data$longitude[grepl("^LYON\\s\\d+$", data$ville)] <- 4.85
