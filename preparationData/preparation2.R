@@ -10,7 +10,7 @@ png("ressources/graphique_mois.png")
 
 accidents <- aggregate(rep(1, nrow(data)) ~ format(data$date, "%Y-%m"), data, sum)
 colnames(accidents) <- c("Année-Mois", "Nombre d'accidents")
-barplot(accidents$`Nombre d'accidents`, names.arg = accidents$`Année-Mois`, xlab = "Mois", ylab = "Nombre d'accidents", main = "Accidents par mois ")
+barplot(accidents$`Nombre d'accidents`, names.arg = accidents$`Année-Mois`, xlab = "Mois", ylab = "Nombre d'accidents", main = "Accidents par mois")
 
 dev.off()
 
@@ -19,7 +19,7 @@ png("ressources/graphique_sem.png")
 
 accidents2 <- aggregate(rep(1, nrow(data)) ~ format(data$date, "%Y-%U"), data, sum)
 colnames(accidents2) <- c("Année-Semaine", "Nombre d'accidents")
-barplot(accidents2$`Nombre d'accidents`, names.arg = accidents2$`Année-Semaine`, xlab = "Semaines", ylab = "Nombre d'accidents", main = "Accidents par semaine pour lignes")
+barplot(accidents2$`Nombre d'accidents`, names.arg = accidents2$`Année-Semaine`, xlab = "Semaines", ylab = "Nombre d'accidents", main = "Accidents par semaines")
 
 dev.off()
 
