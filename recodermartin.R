@@ -2,9 +2,8 @@
 library(dplyr)
 
 #---------------LECTURE---------------#
-nb <- 74000 # Nombre de lignes à lire
 # On lit le fichier csv et on crée les données
-data <- read.csv("stat_acc_V3.csv", sep=";", nrows=nb)
+data <- read.csv("stat_acc_V3.csv", sep = ";")
 
 
 #---------------RECODER---------------#
@@ -17,6 +16,9 @@ data$descr_grav <- as.integer(factor(data$descr_grav))
 
 # Convertir la colonne de dates en objet de type Date
 data$date <- as.Date(data$date)
+
+
+write.csv(data, "stat_acc_V3.csv", row.names = FALSE)
 
 
 #---------------AGGREGATION---------------#
