@@ -13,7 +13,9 @@ pie_values <- c(top_values, other_value) # creation du vecteur des value a utili
 pie_labels <- c(top_labels, "Autre") # asignation des labels des 6 premieres valeurs + "autre"
 percentages <- round((pie_values / sum(pie_values)) * 100, 1)#Calcul du pourcentage de chaque part
 colors <- rainbow(length(pie_values)) #Palette de couleur
+png(filename = "pie_chart_ConditionsAtmo.png",width=750, height=600,res=100)
 pie(pie_values, labels = paste(pie_labels, percentages, "%", sep = " "), col = colors, main = "Distribution des accidents en fonction des conditions atmosphériques")
+dev.off()
 
 
 # Nombre d’accidents en fonction de la description de la surface
@@ -26,7 +28,9 @@ pie_values <- c(top_values, other_value) # creation du vecteur des value a utili
 pie_labels <- c(top_labels, "Autre") # asignation des labels des 3 premieres valeurs + "autre"
 percentages <- round((pie_values / sum(pie_values)) * 100, 1)#Calcul du pourcentage de chaque part
 colors <- rainbow(length(pie_values)) #Palette de couleur
+png(filename = "pie_chart_desc_surf.png",width=750, height=600,res=100)
 pie(pie_values, labels = paste(pie_labels, percentages, "%", sep = " "), col = colors, main = "Distribution des accidents en fonction de la surface")
+dev.off()
 
 
 
@@ -36,37 +40,10 @@ data_sum <- table(data$descr_grav)
 percentages <- round((data_sum * 100) / sum(data_sum), 2)
 colors <- c("#228B22", "#fca103", "#FF5733", "#8B0000")
 labels <- paste(names(data_sum)," - " ,percentages, "%")
+png(filename = "pie_chart_gravite.png",width=750, height=600,res=100)
 pie(data_sum, col = colors, main = "Distribution  des accidents selon leur gravité", labels = labels)
+dev.off()
 
-
-###ZONE DE TEST 
-library(ggplot2)
-library(dplyr)
-library(tidyverse)
-data_sum <- table(data$descr_grav)
-percentages <- round((data_sum * 100) / sum(data_sum), 2)
-colors <- c("#228B22", "#fca103", "#FF5733", "#8B0000")
-labels <- paste(names(data_sum), " - ", percentages, "%")
-
-# Create a data frame for the pie chart
-pie_data <- data.frame(categories = names(data_sum), counts = data_sum, labels = labels)
-
-# Create the pie chart using ggplot
-pie_chart <- ggplot(pie_data, aes(x = "", y = counts, fill = categories)) +
-  geom_bar(stat = "identity", width = 1, color = "white") +
-  coord_polar("y", start = 0) +
-  scale_fill_manual(values = colors) +
-  labs(title = "Distribution des accidents selon leur gravité") +
-  theme_void() +
-  theme(legend.position = "bottom") +
-  geom_text(aes(label = labels), position = position_stack(vjust = 0.5))
-
-# Save the pie chart as a PNG file
-ggsave("pie_chart.png", plot = pie_chart, width = 7, height = 7)
-
-
-
-###
 
 
 #Nombre d’accidents par tranches d’heure
@@ -75,7 +52,9 @@ hours <- format(data$date, '%H') #Recuperation de l'heure de l'accident
 breaks <- seq(0, 24, by = 2) # Definition des intervalles de temps, ici par 2h
 time_intervals <- cut(as.numeric(hours), breaks = breaks) #Groupemement des heures avec les intervales correspondantes
 freq_table <- table(time_intervals)
+png(filename = "histrogram_acc_per_hours.png",width=750, height=600,res=100)
 barplot(freq_table, main = "Nombre d’accidents par tranches d’heure", xlab = "Intervalle de temps", ylab = "Nombre d'accidents",col="#69b3a2")
+dev.off()
 
 
 #Nombre d’accidents par ville
@@ -83,19 +62,25 @@ data_sum <- table(data$ville)
 #data_ordered <- sort(value_counts, decreasing = TRUE) #Tri par villes avec le plus d'accidents
 first_cities = head(data_ordered,30) #Recuperation des 30 premieres villes
 ###Le premier barplot affiche les 30 premières ville de France avec le plus grand nombre d'accidents, le second, toutes les villes, la lisibilité du second est faible.
-barplot(sort(first_cities, decreasing = TRUE), main = "Nombre d’accidents par ville" , ylab = "Nbr d'accidents",col="#69b3a2",las=2)
+png(filename = "histrogram_acc_per_city.png",width=650, height=550,res=100)
+par(mar = c(10.5, 4, 1, 0)) # permet d'ajuster la taille du plot
+barplot(sort(first_cities, decreasing = TRUE), main = "Nombre d’accidents par ville (30 premières)" , ylab = "Nbr d'accidents",col="#69b3a2",las=2)
 #barplot(sort(data_sum, decreasing = TRUE), main = "Nombre d’accidents par ville" , ylab = "Nbr d'accidents",col="#69b3a2",las=2)
+dev.off()
 
 
 #Nombre d’accidents par tranches d'age
-#Creation des groupes d'age
-breaks <- seq(-1, 109, by = 10)
-age_intervals <- cut(data$age, breaks = breaks)
-#Affectation des categories avec le nombre d'accidents
+breaks <- seq(-1, 109, by = 10) #Creation des groupes d'age
+age_intervals <- cut(data$age, breaks = breaks) #Affectation des categories avec le nombre d'accidents
 age_sum <- table(age_intervals)
+png(filename = "histrogram_acc_per_agegroup.png",width=1050, height=850,res=100)
+par(mar = c(3, 4, 5, 0))
 text(x = barplot(age_sum, main = "Nombre d'accidents par tranches d'âge", 
-                 xlab = "Intervalle d'âge", ylab = "Nombre d'accidents", 
-                 col = "#69b3a2"), y = age_sum, labels = age_sum, pos = 3,col = "#69b3a2",ylim = 25000)
+                 xlab = "Intervalle d'âge", ylab = "Nombre d'accidents",
+                 col = "#69b3a2"), y = age_sum,labels = age_sum, pos = 3,col = "#69b3a2")
+dev.off()
+
+
 
 
 
@@ -103,49 +88,43 @@ text(x = barplot(age_sum, main = "Nombre d'accidents par tranches d'âge",
 #data$date <- as.POSIXct(data$date, format = '%Y-%m-%d %H:%M:%S')
 months <- format(data$date, '%m') #Recuperation du mois des accidents
 freq_table <- table(months)
+png(filename = "histrogram_acc_per_month.png",width=1250, height=550,res=100)
 barplot(freq_table, main = "Nombre d'accidents par mois", xlab = "Mois", ylab = "Nombre d'accidents", col = "#69b3a2", names.arg = month.name)
+dev.off()
 
 
 
 #### PARTIE ANALYSE (BESOIN DE LA PREPARATION)
-# Creation d'une variable avec le mois seulement
-data$month <- format(data$date, "%m")
-
-# Create a table of unique year-month combinations and corresponding counts
-monthly_counts <- table(data$month)
-
-# Create the monthly_data dataframe with two columns: year_month and nombre_accidents
+data$month <- format(data$date, "%m") #Extraction du mois parmis la data de l'accident
+monthly_counts <- table(data$month) #Creation du nombre d'accident par mois
 monthly_data <- data.frame(month = names(monthly_counts), nombre_accidents = as.numeric(monthly_counts), nombre_accidents_cumul = as.numeric(cumsum(monthly_counts)))
-
-monthly_data$month <- as.integer(monthly_data$month)
-names(monthly_data)
-cor(monthly_data$month,monthly_data$nombre_accidents_cumul)
-#Creation du modele
-model_bymonth <- lm(monthly_data$nombre_accidents_cumul ~monthly_data$month)
-#Regression lineaire
-summary(model_bymonth)
-plot(monthly_data$month, monthly_data$nombre_accidents_cumul)
-abline(model_bymonth, col = 2, lwd = 3)
+#Creation de monthly_data: un tableau avec pour chaque mois le nombre d'accident ainsi que le cumul des accidents
+monthly_data$month <- as.integer(monthly_data$month) #met en tant que int les valeurs de la table qui sont en chr
+names(monthly_data)#Affiche les noms utilises dans la table
+cor(monthly_data$month,monthly_data$nombre_accidents_cumul) #Correlation entre le mois et le nombre d'accident cumulé
+model_bymonth <- lm(monthly_data$nombre_accidents_cumul ~monthly_data$month)#Creation du modele
+summary(model_bymonth) #information sur la regression
+png(filename = "regression_acc_month.png",width=1050, height=550,res=100)
+plot(monthly_data$month, monthly_data$nombre_accidents_cumul,main ="Regression de l’évolution du nombre d’accidents par mois (cumulée)")
+abline(model_bymonth, col = 2, lwd = 3) #Coeficient de linéarité
+dev.off()
 plot(model_bymonth)
 
 
 ###PARTIE DE LA REGRESSION PAR SEMAINE
-# Convert the date column to POSIXct format (if not already done)
-# Extract the week number from the date
-data$week <- format(data$date, "%U")
-weekly_counts <- table(data$week)
 
+data$week <- format(data$date, "%U") #Extraction de la semaine parmis la data de l'accident
+weekly_counts <- table(data$week) #Creation du nombre d'accident par semaine
 weekly_data <- data.frame(week = names(weekly_counts), nombre_accidents = as.numeric(weekly_counts) ,nombre_accidents_cumul = as.numeric(cumsum(weekly_counts)))
-weekly_data$week <- as.integer(weekly_data$week)
-names(weekly_data)
-
-cor(weekly_data$week,weekly_data$nombre_accidents_cumul)
-
-model_byweek <- lm(weekly_data$nombre_accidents_cumul ~ weekly_data$week)
-
-
+#Creation de weekly_data: un tableau avec pour chaque semaine le nombre d'accident ainsi que le cumul des accidents
+weekly_data$week <- as.integer(weekly_data$week) #met en tant que int les valeurs de la table
+names(weekly_data)#Affiche les noms utilises dans la table
+cor(weekly_data$week,weekly_data$nombre_accidents_cumul) #Correlation entre la semaine et le nombre d'accident cumulé
+model_byweek <- lm(weekly_data$nombre_accidents_cumul ~ weekly_data$week) #Création du modèle de regression entre le nombre d'accident cumulé et l
 summary(model_byweek)
 anova(model_byweek)
-plot(weekly_data$week, weekly_data$nombre_accidents_cumul, main="Nb d'accidents cumulés par semaine")
-abline(model_byweek, col = 2, lwd = 3)
+png(filename = "regression_acc_week.png",width=1050, height=550,res=100)
+plot(weekly_data$week, weekly_data$nombre_accidents_cumul,main ="Regression de l’évolution du nombre d’accidents par semaine (cumulée)")
+abline(model_byweek, col = 2, lwd = 3) #Coeficient de linéarité
+dev.off()
 plot(model_byweek)
