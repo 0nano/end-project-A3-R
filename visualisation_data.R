@@ -1,6 +1,6 @@
 data <- read.csv("stat_acc_V3.csv", sep=";")
-#data <- read.csv("~/GitHub/end-project-A3-R/stat_acc_V3.csv", sep=";")
-
+data <- read.csv("~/GitHub/end-project-A3-R/stat_acc_V3.csv", sep=";")
+#9h57
 
 #Nombre d’accidents en fonction des conditions atmosphériques
 data_sum <- table(data$descr_athmo)
@@ -40,7 +40,7 @@ data_sum <- table(data$descr_grav)
 percentages <- round((data_sum * 100) / sum(data_sum), 2)
 colors <- c("#228B22", "#fca103", "#FF5733", "#8B0000")
 labels <- paste(names(data_sum)," - " ,percentages, "%")
-png(filename = "pie_chart_gravite.png",width=750, height=600,res=100)
+png("pie_chart_gravite.png",width=750, height=600,res=100)
 pie(data_sum, col = colors, main = "Distribution  des accidents selon leur gravité", labels = labels)
 dev.off()
 
@@ -62,7 +62,7 @@ data_sum <- table(data$ville)
 #data_ordered <- sort(value_counts, decreasing = TRUE) #Tri par villes avec le plus d'accidents
 first_cities = head(data_ordered,30) #Recuperation des 30 premieres villes
 ###Le premier barplot affiche les 30 premières ville de France avec le plus grand nombre d'accidents, le second, toutes les villes, la lisibilité du second est faible.
-png(filename = "histrogram_acc_per_city.png",width=650, height=550,res=100)
+png("histrogram_acc_per_city.png",width=650, height=550,res=100)
 par(mar = c(10.5, 4, 1, 0)) # permet d'ajuster la taille du plot
 barplot(sort(first_cities, decreasing = TRUE), main = "Nombre d’accidents par ville (30 premières)" , ylab = "Nbr d'accidents",col="#69b3a2",las=2)
 #barplot(sort(data_sum, decreasing = TRUE), main = "Nombre d’accidents par ville" , ylab = "Nbr d'accidents",col="#69b3a2",las=2)

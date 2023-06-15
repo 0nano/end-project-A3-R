@@ -16,8 +16,11 @@ data$descr_grav <- recode(data$descr_grav,
 
 #Changement du type de variables et changement des valeurs de NULL/NA en valeurs moyenne
 data$an_nais <- as.integer(data$an_nais)
-data$age <- as.numeric(data$age)
+data$age <- as.integer(data$age)
 data$place <- as.integer(data$place)
+
+#conversion du format chr en format date
+data$date <- as.POSIXct(data$date,'%Y-%m-%d %H:%M:%S')
 
 #Recuperation de la valeur mediane sur chaque colonne 
 mean_an_nais <- mean(data$an_nais, na.rm = TRUE)
@@ -32,8 +35,7 @@ data$place[is.na(data$place)] <- mean_place
 #Modification de l'age pour obtenir sa valeur au moment de l'accident
 data$age = 2009-data$an_nais 
 
-#conversion du format chr en format date
-data$date <- as.POSIXct(data$date,'%Y-%m-%d %H:%M:%S')
+
 
 #Coordonnes geographique de PARIS  pour tous les arrondissements
 data$latitude[grepl("^PARIS\\s\\d+$", data$ville)] <- 48.8534
