@@ -12,7 +12,7 @@ top_values <- sorted_data[1:6] #Recuperation des 6 valeurs les plus importantes
 top_labels <- names(top_values) #Creation du label avec le nom des valeurs les plus importantes
 other_value <- sum(sorted_data[7:length(sorted_data)])# calcul de la valeur "autre" contenant la proportion du reste des valeurs
 pie_values <- c(top_values, other_value) # creation du vecteur des value a utiliser pour le pie chart
-pie_labels <- c(top_labels, "Autre") # asignation des labels des 6 premieres valeurs + "autre"
+pie_labels <- c("Normale", "Pluie légère", "Temps couvert", "Pluie forte", "Temps éblouissant", "Neige - grêle", "Autre") # asignation des labels des 6 premieres valeurs + "autre"
 percentages <- round((pie_values / sum(pie_values)) * 100, 1)#Calcul du pourcentage de chaque part
 colors <- rainbow(length(pie_values)) #Palette de couleur
 png(filename = "ressources/pie_chart_ConditionsAtmo.png",width=750, height=600,res=100)
@@ -27,7 +27,7 @@ top_values <- sorted_data[1:3] #Recuperation des 3 valeurs les plus importantes
 top_labels <- names(top_values) #Creation du label avec le nom des valeurs les plus importantes
 other_value <- sum(sorted_data[4:length(sorted_data)])# calcul de la valeur "autre" contenant la proportion du reste des valeurs
 pie_values <- c(top_values, other_value) # creation du vecteur des value a utiliser pour le pie chart
-pie_labels <- c(top_labels, "Autre") # asignation des labels des 3 premieres valeurs + "autre"
+pie_labels <- c("Normale", "Mouillée", "Verglacée", "Autre") # asignation des labels des 3 premieres valeurs + "autre"
 percentages <- round((pie_values / sum(pie_values)) * 100, 1)#Calcul du pourcentage de chaque part
 colors <- rainbow(length(pie_values)) #Palette de couleur
 png(filename = "ressources/pie_chart_desc_surf.png",width=750, height=600,res=100)
