@@ -146,3 +146,4 @@ data$descr_motif_traj <- recode(data$descr_motif_traj,
 )
 
 write.csv(data, "stat_only_ints.csv", row.names = FALSE)
+data2 <- read.csv("~/GitHub/end-project-A3-R/stat_only_ints.csv", sep=";")

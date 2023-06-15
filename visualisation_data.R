@@ -51,7 +51,7 @@ hours <- format(data$date, '%H') #Recuperation de l'heure de l'accident
 breaks <- seq(0, 24, by = 2) # Definition des intervalles de temps, ici par 2h
 time_intervals <- cut(as.numeric(hours), breaks = breaks) #Groupemement des heures avec les intervales correspondantes
 freq_table <- table(time_intervals)
-png(filename = "ressources/histrogram_acc_per_hours.png",width=750, height=600,res=100)
+png(filename = "ressources/histrogram_acc_per_hours.png",width=950, height=650,res=100)
 barplot(freq_table, main = "Nombre d’accidents par tranches d’heure", xlab = "Intervalle de temps", ylab = "Nombre d'accidents",col="#69b3a2")
 dev.off()
 
@@ -84,7 +84,7 @@ dev.off()
 
 months <- format(data$date, '%m') #Recuperation du mois des accidents
 freq_table <- table(months)
-png(filename = "ressources/histrogram_acc_per_month.png",width=1250, height=550,res=100)
+png(filename = "ressources/histrogram_acc_per_month.png",width=1300, height=550,res=100)
 barplot(freq_table, main = "Nombre d'accidents par mois", xlab = "Mois", ylab = "Nombre d'accidents", col = "#69b3a2", names.arg = month.name)
 dev.off()
 
@@ -103,6 +103,7 @@ plot(monthly_data$month, monthly_data$nombre_accidents_cumul,main ="Regression d
 abline(model_bymonth, col = 2, lwd = 3) #Coeficient de linéarité
 dev.off()
 plot(model_bymonth)
+confint(model_bymonth, level = 0.95)
 
 
 
@@ -122,3 +123,4 @@ plot(weekly_data$week, weekly_data$nombre_accidents_cumul,main ="Regression de l
 abline(model_byweek, col = 2, lwd = 3) #Coeficient de linéarité
 dev.off()
 plot(model_byweek)
+confint(model_byweek, level = 0.95)
